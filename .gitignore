@@ -1,2 +1,3 @@
 /common/data/
-/common/notebooks
+/common/notebooks/work/*
+!/common/notebooks/work/**/*.ipynb

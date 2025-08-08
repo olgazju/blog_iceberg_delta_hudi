@@ -42,7 +42,7 @@ services:
 
 
   jupyter:
-    image: quay.io/jupyter/pyspark-notebook:python-3.12
+    image: quay.io/jupyter/pyspark-notebook:spark-3.5.3
     container_name: jupyter
     ports:
       - "8888:8888"    
