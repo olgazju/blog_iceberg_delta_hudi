@@ -1,4 +1,5 @@
 name: lakehouse-local-setup
+
 networks:
   infra_network:
     driver: bridge
@@ -14,8 +15,15 @@ services:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
     volumes:
-      - minio_data:/data
+      - ./data:/data
     command: server --console-address ":9001" /data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - infra_network
 
   aws:
     image: amazon/aws-cli
@@ -29,17 +37,24 @@ services:
       AWS_SECRET_ACCESS_KEY: "minioadmin"
     depends_on:
       - minio
+    networks:
+      - infra_network
+
 
   jupyter:
-    image: jupyter/pyspark-notebook
+    image: quay.io/jupyter/pyspark-notebook:python-3.12
+    container_name: jupyter
     ports:
-      - "8888:8888"
+      - "8888:8888"    
+      - "4040:4040"   
     environment:
       - JUPYTER_ENABLE_LAB=yes
-      - PYSPARK_SUBMIT_ARGS=--packages=org.apache.hadoop:hadoop-aws:3.3.4 pyspark-shell
+      - PYSPARK_SUBMIT_ARGS=pyspark-shell 
+      #--packages org.apache.hadoop:hadoop-aws:3.3.4,software.amazon.awssdk:bundle:2.32.16 --conf spark.hadoop.fs.s3a.threads.keepalivetime=60 pyspark-shell
+    command: start-notebook.sh --NotebookApp.token='' --NotebookApp.allow_origin='*'
     volumes:
-      - ./notebooks:/home/jovyan/work
+      - ./notebooks/work:/home/jovyan/work
+      - ./notebooks/sparkdata:/sparkdata
+    networks:
+      - infra_network
 
-
-volumes:
-  minio_data:
