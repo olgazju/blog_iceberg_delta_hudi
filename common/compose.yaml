@@ -19,7 +19,7 @@ services:
     command: server --console-address ":9001" /data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 30s
+      interval: 20s
       timeout: 20s
       retries: 3
     networks:
@@ -29,14 +29,19 @@ services:
     image: amazon/aws-cli
     container_name: aws-cli
     entrypoint: ["/bin/bash", "-c"]
+    volumes:
+      - ./raw_data:/seed:ro
     command: >
       "sleep 5 &&
-       aws --endpoint-url http://minio:9000 s3 mb s3://my-bucket --region eu-west-1 || true"
+       aws --endpoint-url http://minio:9000 s3 mb s3://my-bucket --region eu-west-1 || true
+       aws --endpoint-url http://minio:9000 s3 sync /seed s3://my-bucket/raw-files/"
     environment:
       AWS_ACCESS_KEY_ID: "minioadmin"
       AWS_SECRET_ACCESS_KEY: "minioadmin"
+      AWS_DEFAULT_REGION: "eu-west-1"
     depends_on:
-      - minio
+      minio:
+        condition: service_healthy
     networks:
       - infra_network
 
@@ -55,6 +60,11 @@ services:
     volumes:
       - ./notebooks/work:/home/jovyan/work
       - ./notebooks/sparkdata:/sparkdata
+    depends_on:
+      minio:
+        condition: service_healthy
+      aws:
+        condition: service_completed_successfully
     networks:
       - infra_network
 

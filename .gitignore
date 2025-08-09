@@ -1,3 +1,4 @@
 /common/data/
 /common/notebooks/work/*
 !/common/notebooks/work/**/*.ipynb
+.DS_Store
