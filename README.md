@@ -1,4 +1,4 @@
-# Three Formats Walk into a Lakehouse: Iceberg, Delta, and Hudi in a Local Setup You Can Run on Your Laptop
+# Three Formats Walk into a Lakehouse: Iceberg, Delta and Hudi in a Local Setup You Can Run on Your Laptop
 
 This repository demonstrates a local lakehouse setup using Docker Compose that allows you to experiment with three popular lakehouse table formats: **Apache Iceberg**, **Delta Lake**, and **Apache Hudi**. All running locally on your laptop!
 
