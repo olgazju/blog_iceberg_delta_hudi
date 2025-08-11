@@ -55,7 +55,6 @@ services:
     environment:
       - JUPYTER_ENABLE_LAB=yes
       - PYSPARK_SUBMIT_ARGS=pyspark-shell 
-      #--packages org.apache.hadoop:hadoop-aws:3.3.4,software.amazon.awssdk:bundle:2.32.16 --conf spark.hadoop.fs.s3a.threads.keepalivetime=60 pyspark-shell
     command: start-notebook.sh --NotebookApp.token='' --NotebookApp.allow_origin='*'
     volumes:
       - ./notebooks/work:/home/jovyan/work
