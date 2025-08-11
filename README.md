@@ -74,11 +74,11 @@ Once the services are running, you can access:
 
 The setup includes three comprehensive notebooks located in the `work/` directory:
 
-### 1. `iceberg.ipynb` - Apache Iceberg Demo
+1. `iceberg.ipynb` - Apache Iceberg Demo
 
-### 2. `delta.ipynb` - Delta Lake Demo
+2. `delta.ipynb` - Delta Lake Demo
 
-### 3. `hudi.ipynb` - Apache Hudi Demo
+3. `hudi.ipynb` - Apache Hudi Demo
 
 ## 🗂️ Sample Data
 
@@ -86,11 +86,6 @@ The setup automatically loads NYC Yellow Taxi trip data:
 - `yellow_tripdata_2025-05.parquet`
 - `yellow_tripdata_2025-06.parquet`
 
-This realistic dataset allows you to explore:
-- Large-scale data processing
-- Partitioning strategies
-- Query performance optimization
-- Real-world lakehouse scenarios
 
 ## 🛠️ Troubleshooting
 
